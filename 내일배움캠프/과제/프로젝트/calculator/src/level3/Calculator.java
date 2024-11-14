@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.stream.Collectors;
 
 public class Calculator<T extends Number> {
+
+    // double만으로도 거의 모든 연산 결과를 표현할 수 있다고 판단
     private Queue<Double> record = new LinkedList<>();
 
     public double calculate(T firstNum, T secondNum, char operation) throws ArithmeticException {
@@ -38,7 +40,7 @@ public class Calculator<T extends Number> {
         return record.remove().toString();
     }
 
-    public String compareRecord(T comp) {
+    public String compareRecord(double comp) {
         return record.stream()
                 .filter(r -> r > comp)
                 .map(String::valueOf)

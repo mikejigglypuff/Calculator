@@ -13,6 +13,7 @@ package level3;
      3. Calculator, Parser를 제네릭 클래스로 변경하기
             3-1. 제네릭 타입에 따라 operation() 메서드가 매개변수를 받도록 할 것
             3-2. 파싱 결과 타입이 제네릭 타입을 따르도록 할 것
+                3-2-1. 제네릭 타입에 따라 String -> Number 하위 타입 형변환을 수행할 것
  */
 
 import java.util.Scanner;
