@@ -2,13 +2,15 @@ package level3;
 
 import level3.enums.OperationTypes;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
-public class Calculator {
+public class Calculator<T extends Number> {
     private Queue<Double> record = new LinkedList<>();
 
-    public double calculate(long firstNum, long secondNum, char operation) throws ArithmeticException {
+    public double calculate(T firstNum, T secondNum, char operation) throws ArithmeticException {
         double result = OperationTypes.of(operation).apply(firstNum, secondNum);
         record.add(result);
         return result;
@@ -32,7 +34,14 @@ public class Calculator {
     // 외부에서 setter를 통해 record를 수정하도록 하는 것은 연산 후 record를 무조건 수정해야 한다는 책임을 외부로 떠넘기는 것이라 생각했습니다.
     // 따라서 calculate() 내부에서 자체적으로 record에 값을 추가하도록 했습니다.
 
-    public Double deleteRecord() {
-        return record.remove();
+    public String deleteRecord() {
+        return record.remove().toString();
+    }
+
+    public String compareRecord(T comp) {
+        return record.stream()
+                .filter(r -> r > comp)
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
     }
 }

@@ -35,15 +35,34 @@ public class App {
         char operation = parser.parseOperation(sc.nextLine());
         System.out.println("연산 결과: " + calculator.calculate(firstNum, secondNum, operation));
 
-        System.out.print(
-            "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): "
-        );
-        String deleteRecordCheck = sc.nextLine().trim();
-
-        if(deleteRecordCheck.equalsIgnoreCase("yes")) {
-            System.out.println(
-                "삭제된 연산 기록: " + calculator.deleteRecord() + "\n현재 연산 기록: " + calculator.getRecord()
+        boolean continueActions = true;
+        while(continueActions) {
+            System.out.print(
+                "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
             );
+            String recordAction = sc.nextLine().trim();
+
+            switch (recordAction) {
+                case "delete":
+                    System.out.print("연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): ");
+                    String deleteRecordCheck = sc.nextLine().trim();
+
+                    if (deleteRecordCheck.equalsIgnoreCase("yes")) {
+                        System.out.println("삭제된 연산 기록: " + calculator.deleteRecord());
+                    }
+                    break;
+
+                case "compare":
+                    System.out.print("비교할 수를 입력하세요: ");
+                    long comp = parser.parsePositiveNumber(sc.nextLine());
+                    System.out.println(comp + "보다 큰 수들: " + calculator.compareRecord(comp));
+                    break;
+
+                default:
+                    continueActions = false;
+                    break;
+            }
+
         }
     }
 }
