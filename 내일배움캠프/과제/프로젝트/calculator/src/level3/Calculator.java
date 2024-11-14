@@ -1,5 +1,7 @@
 package level3;
 
+import level3.enums.OperationTypes;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -7,24 +9,7 @@ public class Calculator {
     private Queue<Double> record = new LinkedList<>();
 
     public double calculate(long firstNum, long secondNum, char operation) throws ArithmeticException {
-        double result = 0;
-
-        switch (operation) {
-            case ('+'):
-                result = Math.addExact(firstNum, secondNum);
-                break;
-            case ('-'):
-                result = Math.subtractExact(firstNum, secondNum);
-                break;
-            case ('*'):
-                result = Math.multiplyExact(firstNum, secondNum);
-                break;
-            case ('/'):
-                if(secondNum == 0) throw new ArithmeticException("0으로 나눠짐");
-                result = (double)firstNum / secondNum;
-                break;
-        }
-
+        double result = OperationTypes.of(operation).apply(firstNum, secondNum);
         record.add(result);
         return result;
     }

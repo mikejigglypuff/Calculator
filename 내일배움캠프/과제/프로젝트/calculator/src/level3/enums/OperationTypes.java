@@ -29,7 +29,7 @@ public enum OperationTypes {
 
     public char getSymbol() { return symbol; }
 
-    public OperationTypes of(char c) {
+    public static OperationTypes of(char c) {
         return Arrays.stream(values())
                 .filter(val -> val.getSymbol() == c)
                 .findFirst().orElse(null);
