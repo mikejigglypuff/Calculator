@@ -4,45 +4,56 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public enum OperationTypes {
-    ADD('+') {
+    ADD('+', 2) {
         // Java Generic은 제네릭 값을 원시 자료형으로 한정지을 수 없음
         // 따라서 숫자형 Wrapper 클래스들의 상위 클래스인 Number로 한정시킨 후 doubleValue를 추출해 연산 수행
-        public <T extends Number> double apply(T x, T y) {
-            double num1 = x.doubleValue(), num2 = y.doubleValue(), result = num1 + num2;
-            if(Double.isInfinite(result)) { throw new ArithmeticException("범위 초과"); }
+        @SafeVarargs
+        public final <T extends Number> double apply(T... numbers) {
+            validateOperandNum(numbers);
+            double result = numbers[0].doubleValue() + numbers[1].doubleValue();
+            checkInfinityResult(result);
             return result;
         }
     },
-    SUB('-') {
-        public <T extends Number> double apply(T x, T y) {
-            double num1 = x.doubleValue(), num2 = y.doubleValue(), result = num1 - num2;
-            if(Double.isInfinite(result)) { throw new ArithmeticException("범위 초과"); }
+    SUB('-', 2) {
+        @SafeVarargs
+        public final <T extends Number> double apply(T... numbers) {
+            validateOperandNum(numbers);
+            double result = numbers[0].doubleValue() - numbers[1].doubleValue();
+            checkInfinityResult(result);
             return result;
         }
     },
-    MUL('*') {
-        public <T extends Number> double apply(T x, T y) {
-            double num1 = x.doubleValue(), num2 = y.doubleValue(), result = num1 * num2;
-            if(Double.isInfinite(result)) { throw new ArithmeticException("범위 초과"); }
+    MUL('*', 2) {
+        @SafeVarargs
+        public final <T extends Number> double apply(T... numbers) {
+            validateOperandNum(numbers);
+            double result = numbers[0].doubleValue() * numbers[1].doubleValue();
+            checkInfinityResult(result);
             return result;
         }
     },
-    DIV('/') {
-        public <T extends Number> double apply(T x, T y) {
-            double num1 = x.doubleValue(), num2 = y.doubleValue();
+    DIV('/', 2) {
+        @SafeVarargs
+        public final <T extends Number> double apply(T... numbers) {
+            validateOperandNum(numbers);
+            double num1 = numbers[0].doubleValue(), num2 = numbers[1].doubleValue();
             if(num2 == 0) throw new ArithmeticException("0으로 나눠짐");
             return num1 / num2;
         }
     };
 
     private final char symbol;
-    public abstract <T extends Number> double apply(T x, T y);
+    private final int operandNum;
+    public abstract <T extends Number> double apply(T... numbers);
 
-    OperationTypes(char symbol) {
+    OperationTypes(char symbol, int operandNum) {
         this.symbol = symbol;
+        this.operandNum = operandNum;
     }
 
     public char getSymbol() { return symbol; }
+    public int getOperandNum() { return operandNum; }
 
     public static OperationTypes of(char c) {
         return Arrays.stream(values())
@@ -57,6 +68,17 @@ public enum OperationTypes {
         }
 
         return sb.toString();
+    }
+
+    protected <T extends Number> void validateOperandNum(T... numbers) {
+        int operandNum = this.getOperandNum();
+        if(numbers.length > operandNum) {
+            throw new IllegalArgumentException(operandNum + "개의 연산만 입력해주세요.");
+        }
+    }
+    
+    protected void checkInfinityResult(double result) {
+        if(Double.isInfinite(result)) { throw new ArithmeticException("범위 초과"); }
     }
 }
 
