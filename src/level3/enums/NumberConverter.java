@@ -21,6 +21,6 @@ public enum NumberConverter {
                 return targetType.cast(numberConverter.converter.apply(number));
             }
         }
-        throw new IllegalArgumentException("Unsupported target type: " + targetType.getName());
+        throw new IllegalArgumentException(targetType.getName() + "는 지원하지 않는 타입입니다.");
     }
 }

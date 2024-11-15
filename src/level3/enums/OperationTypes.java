@@ -1,6 +1,7 @@
 package level3.enums;
 
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public enum OperationTypes {
     ADD('+') {
@@ -47,6 +48,15 @@ public enum OperationTypes {
         return Arrays.stream(values())
                 .filter(val -> val.getSymbol() == c)
                 .findFirst().orElse(null);
+    }
+
+    public static String concatOperations() {
+        StringBuilder sb = new StringBuilder();
+        for(OperationTypes ot : values()) {
+            sb.append(ot.getSymbol());
+        }
+
+        return sb.toString();
     }
 }
 
