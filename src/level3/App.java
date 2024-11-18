@@ -14,7 +14,7 @@ public class App {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public boolean start() throws Exception {
-        System.out.print("연산자 기호를 입력해주세요[" + OperationTypes.concatOperations() + "]: ");
+        System.out.print("연산자 기호를 입력해주세요 [" + OperationTypes.concatOperations() + "]: ");
         char operation = parser.parseOperation(br.readLine());
 
         int operandNum = OperationTypes.of(operation).getOperandNum();
@@ -37,7 +37,7 @@ public class App {
         System.out.print(
                 "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
         );
-        String actionMeaning = Answers.getMeaningForAnswer(br.readLine().trim());
+        String actionMeaning = Answers.getMeaningForAnswer(br.readLine());
 
         switch (actionMeaning) {
             case "delete":

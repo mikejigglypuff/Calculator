@@ -1,7 +1,6 @@
 package level3.enums;
 
 import java.util.Arrays;
-import java.util.stream.Collectors;
 
 public enum OperationTypes {
     ADD('+', 2) {

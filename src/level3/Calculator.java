@@ -2,9 +2,6 @@ package level3;
 
 import level3.enums.OperationTypes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.stream.Collectors;
