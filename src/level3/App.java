@@ -20,7 +20,7 @@ public class App {
         int operandNum = OperationTypes.of(operation).getOperandNum();
         System.out.print("연산할 " + operandNum +  "개의 수를 입력하세요: ");
         Double[] nums = Arrays.stream(br.readLine().split(" "))
-                .map(Double::valueOf)
+                .map(val -> parser.parseNumber(val))
                 .toArray(Double[]::new);
 
         System.out.println("연산 결과: " + calculator.calculate(operation, nums));

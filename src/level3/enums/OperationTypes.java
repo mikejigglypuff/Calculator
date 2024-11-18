@@ -3,6 +3,11 @@ package level3.enums;
 import java.util.Arrays;
 
 public enum OperationTypes {
+    NONE(' ', 0) { // NullPointerException 방지를 위한 기본값
+        public final <T extends Number> double apply(T[] numbers) {
+            return 0;
+        }
+    },
     ADD('+', 2) {
         // Java Generic은 제네릭 값을 원시 자료형으로 한정지을 수 없음
         // 따라서 숫자형 Wrapper 클래스들의 상위 클래스인 Number로 한정시킨 후 doubleValue를 추출해 연산 수행
@@ -71,7 +76,7 @@ public enum OperationTypes {
     public static OperationTypes of(char c) {
         return Arrays.stream(values())
                 .filter(val -> val.getSymbol() == c)
-                .findFirst().orElse(null);
+                .findFirst().orElse(OperationTypes.NONE);
     }
 
     public static String concatOperations() {
