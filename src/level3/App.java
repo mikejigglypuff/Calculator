@@ -42,12 +42,7 @@ public class App {
 
         switch (actionMeaning) {
             case "delete":
-                System.out.print("연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): ");
-                String deleteRecordCheck = Answers.getMeaningForAnswer(br.readLine().trim());
-
-                if (deleteRecordCheck.equalsIgnoreCase("yes")) {
-                    System.out.println("삭제된 연산 기록: " + calculator.deleteRecord());
-                }
+                deleteAction(br);
                 return true;
 
             case "compare":
@@ -56,11 +51,35 @@ public class App {
                 System.out.println(comp + "보다 큰 수들: " + calculator.compareRecord(comp));
                 return true;
 
+            case "no":
             case "inAction":
                 return false;
 
             default:
                 return true;
+        }
+    }
+
+    private void deleteAction(BufferedReader br) throws Exception {
+        System.out.print("연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): ");
+        String deleteRecordCheck = Answers.getMeaningForAnswer(br.readLine());
+
+        if (deleteRecordCheck.equals("yes")) {
+            System.out.println("삭제된 연산 기록: " + calculator.deleteRecord());
+        }
+
+        // 계산 기록 삭제를 연속적으로 할 수 있게 하기 위함
+        boolean continueDeletion = true;
+
+        while (continueDeletion) {
+            System.out.print("계속 삭제하시겠습니까?: ");
+            String continueDeletionCheck = Answers.getMeaningForAnswer(br.readLine());
+
+            if (continueDeletionCheck.equals("yes")) {
+                System.out.println("삭제된 연산 기록: " + calculator.deleteRecord());
+            }
+
+            continueDeletion = continueDeletionCheck.equals("yes") && calculator.getRecordSize() > 0;
         }
     }
 }

@@ -65,7 +65,7 @@ public enum OperationTypes {
     public static String concatOperations() {
         StringBuilder sb = new StringBuilder();
         for(OperationTypes ot : values()) {
-            sb.append(ot.getSymbol());
+            sb.append(ot.getSymbol()).append(" ");
         }
 
         return sb.toString();
