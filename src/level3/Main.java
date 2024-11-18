@@ -1,5 +1,7 @@
 package level3;
 
+import level3.enums.Answers;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +24,7 @@ public class Main {
 
             System.out.print("더 계산하시겠습니까? (exit 입력 시 종료): ");
             // 사용자 편의를 위해 대소문자 구별하지 않고 입력받음
-            if(br.readLine().trim().equalsIgnoreCase("exit")) {
+            if(Answers.getMeaningForAnswer(br.readLine().trim()).equals("exit")) {
                 break;
             }
         }

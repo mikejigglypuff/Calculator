@@ -1,5 +1,6 @@
 package level3;
 
+import level3.enums.Answers;
 import level3.enums.OperationTypes;
 
 import java.io.BufferedReader;
@@ -37,12 +38,12 @@ public class App {
         System.out.print(
                 "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
         );
-        String action = br.readLine().trim();
+        String actionMeaning = Answers.getMeaningForAnswer(br.readLine().trim());
 
-        switch (action) {
+        switch (actionMeaning) {
             case "delete":
                 System.out.print("연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): ");
-                String deleteRecordCheck = br.readLine().trim();
+                String deleteRecordCheck = Answers.getMeaningForAnswer(br.readLine().trim());
 
                 if (deleteRecordCheck.equalsIgnoreCase("yes")) {
                     System.out.println("삭제된 연산 기록: " + calculator.deleteRecord());
@@ -55,8 +56,11 @@ public class App {
                 System.out.println(comp + "보다 큰 수들: " + calculator.compareRecord(comp));
                 return true;
 
-            default:
+            case "inAction":
                 return false;
+
+            default:
+                return true;
         }
     }
 }

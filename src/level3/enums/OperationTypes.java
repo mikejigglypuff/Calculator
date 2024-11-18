@@ -7,6 +7,7 @@ public enum OperationTypes {
     ADD('+', 2) {
         // Java Generic은 제네릭 값을 원시 자료형으로 한정지을 수 없음
         // 따라서 숫자형 Wrapper 클래스들의 상위 클래스인 Number로 한정시킨 후 doubleValue를 추출해 연산 수행
+
         @SafeVarargs
         public final <T extends Number> double apply(T... numbers) {
             validateOperandNum(numbers);
