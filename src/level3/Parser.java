@@ -11,7 +11,7 @@ public class Parser<T extends Number> {
         this.classType = classType;
     }
 
-    public T parseNumber(String number) throws Exception {
+    public T parseNumber(String number) {
         return NumberConverter.convert(number, classType);
     }
 

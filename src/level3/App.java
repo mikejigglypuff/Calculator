@@ -5,21 +5,20 @@ import level3.enums.OperationTypes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class App {
     Calculator<Double> calculator = new Calculator<>();
     Parser<Double> parser = new Parser<>(Double.class);
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-    public void start(BufferedReader br) throws Exception {
+    public boolean start() throws Exception {
         System.out.print("연산자 기호를 입력해주세요[" + OperationTypes.concatOperations() + "]: ");
         char operation = parser.parseOperation(br.readLine());
 
         int operandNum = OperationTypes.of(operation).getOperandNum();
-
         System.out.print("연산할 " + operandNum +  "개의 수를 입력하세요: ");
-        // 정수가 정확히 2개만 들어오는지 검증하기 위해 nextLong 대신 nextLine() 사용
-        // nextLong()으로 입력받을 시 정수가 operandNum를 초과해 들어가면 다른 next() 함수들에 잘못 들어가게 됨
         Double[] nums = Arrays.stream(br.readLine().split(" "))
                 .map(Double::valueOf)
                 .toArray(Double[]::new);
@@ -28,11 +27,13 @@ public class App {
 
         boolean continueActions = true;
         while(calculator.getRecordSize() > 0 && continueActions) {
-            continueActions = recordAction(br);
+            continueActions = recordAction();
         }
+
+        return continueApp();
     }
 
-    private boolean recordAction(BufferedReader br) throws Exception {
+    private boolean recordAction() throws Exception {
         System.out.print(
                 "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
         );
@@ -40,7 +41,7 @@ public class App {
 
         switch (actionMeaning) {
             case "delete":
-                deleteAction(br);
+                deleteAction();
                 return true;
 
             case "compare":
@@ -58,7 +59,7 @@ public class App {
         }
     }
 
-    private void deleteAction(BufferedReader br) throws Exception {
+    private void deleteAction() throws Exception {
         System.out.print("연산 기록을 삭제하시겠습니까? (yes 입력 시 삭제): ");
         String deleteRecordCheck = Answers.getMeaningForAnswer(br.readLine());
 
@@ -78,6 +79,24 @@ public class App {
             }
 
             continueDeletion = continueDeletionCheck.equals("yes") && calculator.getRecordSize() > 0;
+        }
+    }
+
+    private boolean continueApp() throws IOException {
+        while (true) {
+            System.out.print("더 계산하시겠습니까? (yes/no 또는 exit): ");
+
+            // 사용자 편의를 위해 대소문자 구별하지 않고 입력받음
+            String continueCheck = Answers.getMeaningForAnswer(br.readLine());
+
+            switch (continueCheck) {
+                case "yes":
+                    return true;
+
+                case "no":
+                case "exit":
+                    return false;
+            }
         }
     }
 }
