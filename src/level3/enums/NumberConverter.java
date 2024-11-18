@@ -10,7 +10,6 @@ public enum NumberConverter {
     DOUBLE(Double.class, Double::parseDouble);
 
     private final Class<? extends Number> type;
-    // NumberFormatException
     private final Function<String, ? extends Number> converter;
 
     NumberConverter(Class<? extends Number> type, Function<String, ? extends Number> converter) {

@@ -40,7 +40,7 @@ public enum OperationTypes {
         public final <T extends Number> double apply(T[] numbers) {
             validateOperandNum(numbers);
             double num1 = numbers[0].doubleValue(), num2 = numbers[1].doubleValue();
-            if (num2 == 0) throw new ArithmeticException("0으로 나눠짐");
+            checkDividedByZero(num2);
             return num1 / num2;
         }
     },
@@ -48,7 +48,7 @@ public enum OperationTypes {
         public final <T extends Number> double apply(T[] numbers) {
             validateOperandNum(numbers);
             double num1 = numbers[0].doubleValue(), num2 = numbers[1].doubleValue();
-            if (num2 == 0) throw new ArithmeticException("0으로 나눠짐");
+            checkDividedByZero(num2);
             return num1 % num2;
         }
     },
@@ -90,10 +90,10 @@ public enum OperationTypes {
     public static String concatOperations() {
         StringBuilder sb = new StringBuilder();
         for (OperationTypes ot : values()) {
-            sb.append(ot.getSymbol()).append(", ");
+            sb.append(ot.getSymbol());
         }
 
-        sb.delete(sb.length() - 2, sb.length());
+        sb.deleteCharAt(0);
         return sb.toString();
     }
 
@@ -103,6 +103,10 @@ public enum OperationTypes {
         if (numbers.length != operandNum) {
             throw new IllegalArgumentException(operandNum + "개의 수를 입력해주세요.");
         }
+    }
+
+    protected <T extends Number> void checkDividedByZero(T num) {
+        if(num.doubleValue() == 0) throw new ArithmeticException("0으로 나눠짐");
     }
 
     // 연산 결과가 자료형을 초과하는지 검사
