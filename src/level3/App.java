@@ -18,7 +18,7 @@ public class App {
         char operation = parser.parseOperation(br.readLine());
 
         int operandNum = OperationTypes.of(operation).getOperandNum();
-        System.out.print("연산할 " + operandNum +  "개의 수를 입력하세요: ");
+        System.out.print("연산할 " + operandNum + "개의 수를 입력하세요: ");
         Double[] nums = Arrays.stream(br.readLine().split(" "))
                 .map(val -> parser.parseNumber(val))
                 .toArray(Double[]::new);
@@ -26,7 +26,7 @@ public class App {
         System.out.println("연산 결과: " + calculator.calculate(operation, nums));
 
         boolean continueActions = true;
-        while(calculator.getRecordSize() > 0 && continueActions) {
+        while (calculator.getRecordSize() > 0 && continueActions) {
             continueActions = recordAction();
         }
 
@@ -35,7 +35,7 @@ public class App {
 
     private boolean recordAction() throws Exception {
         System.out.print(
-                "현재 연산 기록: "+calculator.getRecord()+"\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
+                "현재 연산 기록: " + calculator.getRecord() + "\n연산 기록들에 대해 수행할 작업을 선택하세요 (delete/compare/none): "
         );
         String actionMeaning = Answers.getMeaningForAnswer(br.readLine());
 

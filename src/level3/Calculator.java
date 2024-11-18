@@ -11,6 +11,8 @@ public class Calculator<T extends Number> {
     // double만으로도 거의 모든 연산 결과를 표현할 수 있다고 판단
     private final Queue<Double> record = new LinkedList<>();
 
+    // 외부에서 setter를 통해 record를 수정하도록 하는 것은 연산 후 record를 무조건 수정해야 한다는 책임을 외부로 떠넘기는 것이라 생각했습니다.
+    // 따라서 calculate() 내부에서 자체적으로 record에 값을 추가하도록 했습니다.
     public final double calculate(char operation, T[] numbers) throws ArithmeticException {
         double result = OperationTypes.of(operation).apply(numbers);
         record.add(result);
@@ -20,11 +22,11 @@ public class Calculator<T extends Number> {
     // record를 사용할 곳에 맞춰 배열 형식의 문자열로 반환
     public String getRecord() {
         // 많은 문자열을 합치는 데 용이한 클래스 사용
-        if(record.isEmpty()) return emptyRecordMessage;
+        if (record.isEmpty()) return emptyRecordMessage;
         StringBuilder sb = new StringBuilder();
         sb.append("[");
 
-        for(double d : record) {
+        for (double d : record) {
             sb.append(d).append(", ");
         }
 
@@ -33,18 +35,18 @@ public class Calculator<T extends Number> {
         return sb.toString();
     }
 
-    public int getRecordSize() { return this.record.size(); }
-
-    // 외부에서 setter를 통해 record를 수정하도록 하는 것은 연산 후 record를 무조건 수정해야 한다는 책임을 외부로 떠넘기는 것이라 생각했습니다.
-    // 따라서 calculate() 내부에서 자체적으로 record에 값을 추가하도록 했습니다.
+    public int getRecordSize() {
+        return this.record.size();
+    }
 
     public String deleteRecord() {
-        if(record.isEmpty()) return emptyRecordMessage;
+        if (record.isEmpty()) return emptyRecordMessage;
         return record.remove().toString();
     }
 
+    // 특정 수를 계산 기록들과 비교
     public String compareRecord(double comp) {
-        if(record.isEmpty()) return emptyRecordMessage;
+        if (record.isEmpty()) return emptyRecordMessage;
         return record.stream()
                 .filter(r -> r > comp)
                 .map(String::valueOf)

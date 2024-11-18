@@ -11,7 +11,7 @@ public enum Answers {
     DELETE("delete", new ArrayList<>(Arrays.asList("delete", "del", "d", "삭제"))),
     COMPARE("compare", new ArrayList<>(Arrays.asList("compare", "comp", "c", "비교", "큰 수 비교"))),
     INACTION("inAction", new ArrayList<>(Arrays.asList("none", "없음", "없어요")));
-    
+
     private final String meaning;
     private final List<String> answerList;
 
@@ -28,16 +28,12 @@ public enum Answers {
         return answerList;
     }
 
-    /*
-    입력이 들어옴 -> 입력에 맞는 ENUM 상수 얻기 -> ENUM 상수의 의미 값에 따라 작업 수행
-    입력에 맞는 ENUM 상수가 없어서 null이 반환되면?
-    -> 입력 시 상수들을 순회하며 맞는 의미가 있다면 반환하고 그렇지 않다면 빈 문자열을 반환하는 걸로 변경하기
-     */
+    // 사용자의 입력이 어떤 카테고리에 속하는지를 반환
     public static String getMeaningForAnswer(String input) {
         String lowerInput = input.toLowerCase().trim();
 
-        for(Answers a : values()) {
-            if(a.getAnswerList().contains(lowerInput)) {
+        for (Answers a : values()) {
+            if (a.getAnswerList().contains(lowerInput)) {
                 return a.getMeaning();
             }
         }

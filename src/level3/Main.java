@@ -1,11 +1,11 @@
 package level3;
 
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) {
         App app = new App();
         // 예외처리 및 무한루프는 메인함수에서 담당
         boolean continueAppRunning = true;
-        while(continueAppRunning) {
+        while (continueAppRunning) {
             try {
                 continueAppRunning = app.start();
             } catch (ArithmeticException e) {

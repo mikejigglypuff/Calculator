@@ -3,7 +3,8 @@ package level3.enums;
 import java.util.Arrays;
 
 public enum OperationTypes {
-    NONE(' ', 0) { // NullPointerException 방지를 위한 기본값
+    // NullPointerException 방지를 위한 기본값
+    NONE(' ', 0) {
         public final <T extends Number> double apply(T[] numbers) {
             return 0;
         }
@@ -39,7 +40,7 @@ public enum OperationTypes {
         public final <T extends Number> double apply(T[] numbers) {
             validateOperandNum(numbers);
             double num1 = numbers[0].doubleValue(), num2 = numbers[1].doubleValue();
-            if(num2 == 0) throw new ArithmeticException("0으로 나눠짐");
+            if (num2 == 0) throw new ArithmeticException("0으로 나눠짐");
             return num1 / num2;
         }
     },
@@ -47,7 +48,7 @@ public enum OperationTypes {
         public final <T extends Number> double apply(T[] numbers) {
             validateOperandNum(numbers);
             double num1 = numbers[0].doubleValue(), num2 = numbers[1].doubleValue();
-            if(num2 == 0) throw new ArithmeticException("0으로 나눠짐");
+            if (num2 == 0) throw new ArithmeticException("0으로 나눠짐");
             return num1 % num2;
         }
     },
@@ -63,6 +64,7 @@ public enum OperationTypes {
 
     private final char symbol;
     private final int operandNum;
+
     public abstract <T extends Number> double apply(T[] numbers);
 
     OperationTypes(char symbol, int operandNum) {
@@ -70,8 +72,13 @@ public enum OperationTypes {
         this.operandNum = operandNum;
     }
 
-    public char getSymbol() { return symbol; }
-    public int getOperandNum() { return operandNum; }
+    public char getSymbol() {
+        return symbol;
+    }
+
+    public int getOperandNum() {
+        return operandNum;
+    }
 
     public static OperationTypes of(char c) {
         return Arrays.stream(values())
@@ -79,9 +86,10 @@ public enum OperationTypes {
                 .findFirst().orElse(OperationTypes.NONE);
     }
 
+    // 선언된 모든 연산자들의 기호를 합쳐 +, - 형식으로 반환
     public static String concatOperations() {
         StringBuilder sb = new StringBuilder();
-        for(OperationTypes ot : values()) {
+        for (OperationTypes ot : values()) {
             sb.append(ot.getSymbol()).append(", ");
         }
 
@@ -89,15 +97,19 @@ public enum OperationTypes {
         return sb.toString();
     }
 
+    // 입력된 피연산자 수가 정의된 operandNum와 같은지 검증
     protected <T extends Number> void validateOperandNum(T[] numbers) {
         int operandNum = this.getOperandNum();
-        if(numbers.length != operandNum) {
+        if (numbers.length != operandNum) {
             throw new IllegalArgumentException(operandNum + "개의 수를 입력해주세요.");
         }
     }
-    
+
+    // 연산 결과가 자료형을 초과하는지 검사
     protected void checkInfinityResult(double result) {
-        if(Double.isInfinite(result)) { throw new ArithmeticException("범위 초과"); }
+        if (Double.isInfinite(result)) {
+            throw new ArithmeticException("범위 초과");
+        }
     }
 }
 
