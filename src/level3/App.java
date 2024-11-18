@@ -5,13 +5,14 @@ import level3.enums.OperationTypes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class App {
     Calculator<Double> calculator = new Calculator<>();
     Parser<Double> parser = new Parser<>(Double.class);
 
     public void start(BufferedReader br) throws Exception {
-        System.out.print("사칙연산 기호를 입력해주세요: ");
+        System.out.print("연산자 기호를 입력해주세요[" + OperationTypes.concatOperations() + "]: ");
         char operation = parser.parseOperation(br.readLine());
 
         int operandNum = OperationTypes.of(operation).getOperandNum();
@@ -19,14 +20,11 @@ public class App {
         System.out.print("연산할 " + operandNum +  "개의 수를 입력하세요: ");
         // 정수가 정확히 2개만 들어오는지 검증하기 위해 nextLong 대신 nextLine() 사용
         // nextLong()으로 입력받을 시 정수가 operandNum를 초과해 들어가면 다른 next() 함수들에 잘못 들어가게 됨
-        String[] nums = br.readLine().split(" ");
-        if (nums.length != operandNum) throw new Exception("2개의 수만 입력해주세요.");
+        Double[] nums = Arrays.stream(br.readLine().split(" "))
+                .map(Double::valueOf)
+                .toArray(Double[]::new);
 
-        double firstNum = parser.parseNumber(nums[0]);
-        double secondNum = parser.parseNumber(nums[1]);
-
-
-        System.out.println("연산 결과: " + calculator.calculate(firstNum, secondNum, operation));
+        System.out.println("연산 결과: " + calculator.calculate(operation, nums));
 
         boolean continueActions = true;
         while(calculator.getRecordSize() > 0 && continueActions) {

@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 public class Calculator<T extends Number> {
     private final String emptyRecordMessage = "연산 기록이 없습니다.";
     // double만으로도 거의 모든 연산 결과를 표현할 수 있다고 판단
-    private Queue<Double> record = new LinkedList<>();
+    private final Queue<Double> record = new LinkedList<>();
 
-    public double calculate(T firstNum, T secondNum, char operation) throws ArithmeticException {
-        double result = OperationTypes.of(operation).apply(firstNum, secondNum);
+    public final double calculate(char operation, T[] numbers) throws ArithmeticException {
+        double result = OperationTypes.of(operation).apply(numbers);
         record.add(result);
         return result;
     }
