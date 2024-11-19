@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class App {
-    Calculator<Double> calculator = new Calculator<>();
-    Parser<Double> parser = new Parser<>(Double.class);
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private final Calculator<Double> calculator = new Calculator<>();
+    private final Parser<Double> parser = new Parser<>(Double.class);
+    private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     public boolean start() throws Exception {
         System.out.print("연산자 기호를 입력해주세요 [" + OperationTypes.concatOperations() + "]: ");
@@ -20,7 +20,7 @@ public class App {
         int operandNum = OperationTypes.of(operation).getOperandNum();
         System.out.print("연산할 " + operandNum + "개의 수를 입력하세요: ");
         Double[] nums = Arrays.stream(br.readLine().split(" "))
-                .map(val -> parser.parseNumber(val))
+                .map(parser::parseNumber)
                 .toArray(Double[]::new);
 
         System.out.println("연산 결과: " + calculator.calculate(operation, nums));
